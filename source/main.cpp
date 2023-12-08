@@ -133,36 +133,42 @@ void lanzar_evolucion(Poblacion &poblacion) {
 }
 
 void ejecutar(LectorCiudades &lector_ciudades, const string &archivo_datos) {
-    for (const int &semilla: VEC_SEMILLAS) {
 
-        inicializar_generador_aleatorio(semilla);
+    for (int j = 0; j < 2; ++j) {
+        OPERADOR_CRUCE_GEN = OPERADOR_DIFERENCIAL = j;
+        for (const int &semilla: VEC_SEMILLAS) {
 
-        for (const int &num: VEC_NUM_INDIVIDUOS) {
+            inicializar_generador_aleatorio(semilla);
 
-            for (const int &elite: VEC_NUMERO_ELITES) {
+            for (const int &num: VEC_NUM_INDIVIDUOS) {
 
-                for (const int &kbest: VEC_KBEST) {
+                for (const int &elite: VEC_NUMERO_ELITES) {
 
-                    Reloj reloj_iteracion;
-                    reloj_iteracion.iniciar();
+                    for (const int &kbest: VEC_KBEST) {
 
-                    Logger logger(num, kbest, elite, semilla);
+                        Reloj reloj_iteracion;
+                        reloj_iteracion.iniciar();
 
-                    Poblacion poblacion(lector_ciudades, num, kbest, elite, &logger);
+                        Logger logger(num, kbest, elite, semilla, archivo_datos);
 
-                    lanzar_evolucion(poblacion);
+                        Poblacion poblacion(lector_ciudades, num, kbest, elite, &logger);
 
-                    vector<Individuo> poblacion_final = poblacion.get_individuos();
-                    std::sort(poblacion_final.begin(), poblacion_final.end());
+                        lanzar_evolucion(poblacion);
 
-                    reloj_iteracion.finalizar();
+                        vector<Individuo> poblacion_final = poblacion.get_individuos();
+                        std::sort(poblacion_final.begin(), poblacion_final.end());
 
-                    imprimir_informacion_actual(reloj_iteracion, {INFINITO_POSITIVO, semilla, num, kbest, elite},
-                                                poblacion_final, archivo_datos);
+                        reloj_iteracion.finalizar();
+
+                        imprimir_informacion_actual(reloj_iteracion,
+                                                    {INFINITO_POSITIVO, semilla, num, kbest, elite},
+                                                    poblacion_final, archivo_datos);
+                    }
                 }
             }
         }
     }
+
 }
 
 int main(int argc, char *argv[]) {
@@ -177,11 +183,12 @@ int main(int argc, char *argv[]) {
     std::string ruta_parametros = argv[1];
     LectorParametros lector_parametros(ruta_parametros);
 
-    string archivo_datos = VEC_ARCHIVOS_DATOS[0];
+    for (const auto &archivo_datos: VEC_ARCHIVOS_DATOS) {
 
-    LectorCiudades lector_ciudades(archivo_datos);
+        LectorCiudades lector_ciudades(archivo_datos);
 
-    ejecutar(lector_ciudades, archivo_datos);
+        ejecutar(lector_ciudades, archivo_datos);
+    }
 
     reloj_principal.finalizar();
 

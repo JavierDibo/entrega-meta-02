@@ -10,6 +10,7 @@ class Logger {
     std::ofstream archivo_params;
     std::string csv;
     std::string params;
+    std::string archivo_datos;
     std::string p_cruce;
     std::string p_mutacion;
     std::string p_greedy;
@@ -25,12 +26,11 @@ class Logger {
     std::string operador;
 
 public:
-    explicit Logger(int num, int kbest, int elite, int semilla);
+    explicit Logger(int num, int kbest, int elite, int semilla, const std::string &archivo_datos);
 
     virtual ~Logger();
 
-    void escribir_log_csv(int evaluaciones_actual, int generaciones_actual, double mejor_coste_actual, double peor_coste_actual,
-                          const std::vector<int> &mejor_solucion_actual);
+    void escribir_log_csv(int evaluaciones_actual, int generaciones_actual, double mejor_coste_actual, double peor_coste_actual, Reloj &reloj);
 
     void inicializar_log();
 

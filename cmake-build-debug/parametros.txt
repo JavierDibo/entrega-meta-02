@@ -26,8 +26,8 @@ paralelizacion=true
 log=true
 
 # Nombre de los archivos de datos
-datos=ch130.tsp
-#datos=pr144.tsp
+#datos=ch130.tsp
+datos=pr144.tsp
 #datos=d15112.tsp
 
 # Para cantidad INFinita poner 0
@@ -48,11 +48,14 @@ probabilidad_greedy=0.2
 # PR144 --> 58,537
 # D15112 --> 1,573,084 --> 1.57308e+6
 
+algoritmo=1
 # Datos totales a recoger (SOLO PARA GENERACIONAL)
-algoritmo=0
 numero_individuos=50,100
 numero_elites=1,2
 numero_kbest=2,3
-semilla=77646884
-#,47764688,84776468,88477646,68847764
+semilla=77646884,47764688,84776468,88477646,68847764
+datos=pr144.tsp,ch130.tsp,d15112.tsp
 
+# datos=ch130.tsp
+# datos=pr144.tsp
+# datos=d15112.tsp

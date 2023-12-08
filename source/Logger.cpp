@@ -53,23 +53,18 @@ void Logger::inicializar_log_csv() {
         std::cerr << "Error al abrir " << csv << std::endl;
     }
 
-    archivo_csv << "Evaluacion,Generacion,Mejor coste,Peor coste,Solucion\n";
+    archivo_csv << "Evaluacion,Generacion,Mejor coste,Peor coste,Tiempo\n";
 
 }
 
 void Logger::escribir_log_csv(int evaluaciones_actual, int generaciones_actual, double mejor_coste_actual,
-                              double peor_coste_actual, const std::vector<int> &mejor_solucion_actual) {
+                              double peor_coste_actual, Reloj &reloj) {
+
+    reloj.finalizar();
+    double tiempo = reloj.obtener_tiempo_transcurrido(MILISEGUNDOS);
 
     archivo_csv << evaluaciones_actual << "," << generaciones_actual << "," << mejor_coste_actual << ","
-                << peor_coste_actual << ",";
-
-    archivo_csv << "[";
-    for (const auto &valor: mejor_solucion_actual)
-        archivo_csv << valor << " ";
-    archivo_csv << "]\n";
-
-    // archivo_csv.flush();
-
+                << peor_coste_actual << "," << tiempo << "\n";
 }
 
 Logger::~Logger() {
@@ -112,8 +107,6 @@ void Logger::crear_archivos() {
     /// logs/diferencial/eda/datos/
     /// semilla_numInd_maxEv_maxGen_maxSegs_numElit_numKbest_numKworst_cruce_mutacion_greedy.csv
 
-    std::string archivo_datos = procesar_string_archivo_datos(VEC_ARCHIVOS_DATOS[0]);
-
     std::string identificador = semilla + "_ind" + numero_individuos + "_elit" + num_elites + "_kbest" + num_kbest;
 
     std::string directorio_base = "logs/" + archivo_datos + "/" + algoritmo + "_" + operador + "/";
@@ -123,7 +116,9 @@ void Logger::crear_archivos() {
     std::filesystem::create_directories(directorio_base);
 }
 
-Logger::Logger(int num, int kbest, int elite, int semilla) {
+Logger::Logger(int num, int kbest, int elite, int semilla, const std::string &archivo_datos) {
+
+    this->archivo_datos = archivo_datos;
 
     if (MAX_NUM_EVALUACIONES != INFINITO_POSITIVO)
         max_evaluaciones = std::to_string(MAX_NUM_EVALUACIONES);

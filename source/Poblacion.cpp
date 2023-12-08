@@ -35,7 +35,7 @@ void Poblacion::evolucion_generacional() {
             Individuo *mejor = &a[0];
             Individuo *peor = &a[a.size() - 1];
             logger->escribir_log_csv(num_evaluaciones, num_generaciones,
-                                     mejor->get_coste(), peor->get_coste(), mejor->get_camino());
+                                     mejor->get_coste(), peor->get_coste(), reloj);
         }
 
         /// Aplicar encontrar_elites: almacenar los "num_elites" mejores individuos
@@ -98,17 +98,12 @@ std::vector<int> Poblacion::camino_greedy(const std::vector<std::vector<float>> 
     return camino;
 }
 
-const std::string GREEN = "\033[32m";   // Green
-const std::string RESET = "\033[0m";    // Reset to default color
-
 void Poblacion::crear_poblacion() {
 
     Reloj reloj_creacion;
     reloj_creacion.iniciar();
 
     individuos.reserve(num_invididuos);
-
-    std::cout << GREEN;
 
     if (ECHO) {
         std::cout << std::endl;
@@ -153,8 +148,6 @@ void Poblacion::crear_poblacion() {
         std::cout << "Tiempo para generar la poblacion inicial: " << tiempo << " milisegundos. " <<
                   std::endl;
     }
-
-    std::cout << RESET;
 }
 
 bool Poblacion::condicion_parada() {
@@ -303,7 +296,7 @@ void Poblacion::avanzar_poblacion_diferencial(std::vector<Individuo> &nueva_pobl
         Individuo *mejor = &individuos[0];
         Individuo *peor = &individuos[individuos.size() - 1];
         logger->escribir_log_csv(num_evaluaciones, num_generaciones,
-                                 mejor->get_coste(), peor->get_coste(), mejor->get_camino());
+                                 mejor->get_coste(), peor->get_coste(), reloj);
     }
 
     num_generaciones++;
