@@ -6,15 +6,15 @@ Para ejecutar el algoritmo se ruega que se haga en el entorno CLion. Debido a la
 
 Para ejecutar el programa en el entorno CLion simplemente basta con abrir el archivo adjunto a través del menú correspondiente, y establecer el nombre del archivo de parámetros (./parametros.txt) en la ejecución, de esta forma:
 
-![imagen1](URL_de_la_imagen)
+![imagen1](https://github.com/JavierDibo/entrega-meta-02/blob/main/imagenes/imagen1.png)
 
-![imagen2](URL_de_la_imagen)
+![imagen2](https://github.com/JavierDibo/entrega-meta-02/blob/main/imagenes/imagen2.png)
 
 Los archivos logs se pueden encontrar en este [link de Google Drive](https://drive.google.com/file/d/1PJ68QoQrf4463XZ-_LRmtkPR6VusRCK-/view?usp=sharing).
 
 Una vez proporcionados los datos correspondientes en el archivo de parámetros (localizado en ./cmake-build-debug/) es recomendable recargar el archivo cmake haciendo click derecho en el proyecto:
 
-![imagen3](URL_de_la_imagen)
+![imagen3](https://github.com/JavierDibo/entrega-meta-02/blob/main/imagenes/imagen3.png)
 
 ## 1.2 Archivo de parámetros
 
