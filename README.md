@@ -1,31 +1,137 @@
-Los distintos componentes de este algoritmo son:
+# Manual de usuario
 
-- Inicialización de una población de 50 y 100 individuos con un 80% de los individuos generados de forma aleatoria completamente, y el resto mediante un camino_greedy aleatorizado con tamaño 5.
+## 1. Ejecución del programa
 
-- Esquema de evolución generacional con élite E=1 y E=2.
+Para ejecutar el algoritmo se ruega que se haga en el entorno CLion. Debido a la naturaleza de la ejecución y nombre de directorios en los distintos sistemas, la compilación en un .exe del programa no produce los resultados esperables.
 
-- Operador de selección basada en un torneo binario con kBest=2 y kBest=3 aplicándose tantas veces como individuos tengamos en la población.
+Para ejecutar el programa en el entorno CLion simplemente basta con abrir el archivo adjunto a través del menú correspondiente, y establecer el nombre del archivo de parámetros (./parametros.txt) en la ejecución, de esta forma:
 
-- Reemplazamiento que será realizado con el reemplazo de la población completa por la población descendiente. Para conservar el encontrar_elites, si la mejor solución de la generación anterior no sobrevive, sustituye al peor de un torneo de perdedores de la nueva población con kWorst=3.
+![imagen1](URL_de_la_imagen)
 
-- Operador de elegir_cruce con una probabilidad del 70% se deberán implementar dos operadores el cruce de orden OX2 y el elegir_cruce PMX.
+![imagen2](URL_de_la_imagen)
 
-- Operador de mutación con una probabilidad del 10% por individuo será el operador de intercambio 2-opt que hemos empleado en la práctica 1, de forma, que si el individuo debe mutarse se seleccionan aleatoriamente dos posiciones distintas y se intercambian.
+Los archivos logs se pueden encontrar en este [link de Google Drive](https://drive.google.com/file/d/1PJ68QoQrf4463XZ-_LRmtkPR6VusRCK-/view?usp=sharing).
 
-- Condición de parada de un máximo número de evaluaciones 50.000 ó 60 segundos.
+Una vez proporcionados los datos correspondientes en el archivo de parámetros (localizado en ./cmake-build-debug/) es recomendable recargar el archivo cmake haciendo click derecho en el proyecto:
 
-Se realizará una versión modificada del anterior algoritmo que se adaptará a un algoritmo de evolución diferencial modificado para TSP con los siguientes datos:
+![imagen3](URL_de_la_imagen)
 
-- Esquema de evolución clásico de Evolución Diferencial visto en clase.
+## 1.2 Archivo de parámetros
 
-- Operador de selección:
-    - EDA
-        - Se seleccionan 2 individuos por torneo con kBest=2.
-        - Se seleccionan otros 2 individuos aleatorios.
-        - NOTA: Todos deben ser distintos.
-    - EDB
-        - Se seleccionan 4 individuos por torneo con kBest=2.
+Se presentan todos los parámetros que se pueden modificar en el archivo de parámetros.
 
-- Recombinación ternaria SE TRABAJARÁ EN CLASE.
+- **semilla**
+  - *Descripción:* Representa las semillas utilizadas para generar números aleatorios en el programa.
+  - *Uso:* Se puede establecer una única semilla o varias separadas por comas. Si no se especifica una semilla, el programa utiliza un conjunto de semillas por defecto.
+  - *Ejemplo:* `semilla=3475,3718,3264`
+  - *Nota:* Las semillas utilizadas para las ejecuciones recogidas son: 77646884, 47764688, 84776468, 88477646, 68847764.
 
-- Reemplazamiento donde el hijo sustituye al padre si y solo si lo mejora.
+- **algoritmo**
+  - *Descripción:* Determina el algoritmo que se utilizará para resolver el problema.
+  - *Uso:* Puede ser uno entre generacional o diferencial, representados por números: 0 o 1 respectivamente.
+  - *Ejemplos:* 
+    - `algoritmo=0` (generacional)
+    - `algoritmo=1` (diferencial)
+
+- **cruce**
+  - *Descripción:* Define el operador de cruce a utilizar en el algoritmo generacional.
+  - *Uso:* 0 representa el operador OX2, 1 representa el operador MOC.
+
+- **diferencial**
+  - *Descripción:* Define la selección de individuos en el algoritmo diferencial.
+  - *Uso:* 0 representa EDA, 1 representa EDB.
+
+- **echo**
+  - *Descripción:* Si está activado, el programa imprimirá datos por consola.
+  - *Valores:* true o false
+
+- **paralelizacion**
+  - *Descripción:* Activa la paralelización para mejorar el rendimiento del programa usando OpenMP.
+  - *Valores:* true o false
+
+- **log**
+  - *Descripción:* Si está activado, el programa creará archivos log con información detallada de las operaciones y las guardará en la carpeta correspondiente.
+  - *Valores:* true o false
+
+- **datos**
+  - *Descripción:* Especifica los archivos de datos que el programa usará.
+  - *Uso:* Se pueden especificar múltiples archivos separados por comas.
+  - *Ejemplo:* `datos=ch130.tsp,pr144.tsp,d15112.tsp`
+
+- **max_num_evaluaciones**
+  - *Descripción:* Define el número máximo de evaluaciones que el algoritmo realizará.
+  - *Valores:* Un número entero positivo. Si se introduce 0 se asume que el valor es infinito.
+
+- **max_num_generaciones**
+  - *Descripción:* Define el número máximo de generaciones que el algoritmo realizará.
+  - *Valores:* Un número entero positivo. Si se introduce 0 se asume que el valor es infinito.
+  - *Nota:* se tomará el menor valor entre el número de evaluaciones y el número de generaciones.
+
+- **numero_individuos**
+  - *Descripción:* Especifica el número de individuos de la población.
+  - *Uso:* Se pueden establecer uno o más valores enteros.
+  - *Ejemplo:* `numero_individuos=50,100`
+  - *Nota:* El número de individuos debe ser mayor que el número de KBEST.
+
+- **max_segundos_ejecucion**
+  - *Descripción:* Define el tiempo máximo medido en segundos que el algoritmo toma en evolucionar a la población.
+  - *Valores:* Un número real positivo.
+
+- **numero_elites**
+  - *Descripción:* Especifica el número de elites que se tendrán en cuenta en la población.
+  - *Uso:* Se pueden establecer uno o más valores enteros.
+  - *Ejemplo:* `numero_elites=1,2`
+
+- **numero_kbest**
+  - *Descripción:* Especifica el número de KBEST que se tendrán en cuenta en la selección de la población.
+  - *Uso:* Se pueden establecer uno o más valores enteros.
+  - *Ejemplo:* `numero_kbest=2,3`
+
+- **numero_kworst**
+  - *Descripción:* Especifica el número de KWORST que se tendrán en cuenta en la selección de la población.
+  - *Valores:* Un número entero positivo.
+
+- **probabilidad_cruce**
+  - *Descripción:* Especifica la probabilidad de que dos individuos se crucen.
+  - *Valores:* Un número real entre 0 y 1.
+
+- **probabilidad_mutacion**
+  - *Descripción:* Especifica la probabilidad de que un individuo mute.
+  - *Valores:* Un número real entre 0 y 1.
+
+- **probabilidad_greedy**
+  - *Descripción:* Especifica la cantidad de individuos que serán generados mediante el algoritmo greedy. El resto de la población será generada de forma aleatoria.
+  - *Valores:* Un número real entre 0 y 1.
+
+Si en la ejecución CMake diese algún error, el archivo CMakeLists.txt utilizado es el siguiente:
+
+```cmake
+cmake_minimum_required(VERSION 3.26)
+project(meta_practica_02)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(meta_practica_02 source/main.cpp
+        source/LectorCiudades.cpp
+        source/LectorCiudades.h
+        source/LectorCiudades.h
+        source/globals.h
+        source/globals.cpp
+        source/Reloj.cpp
+        source/Reloj.h
+        source/LectorParametros.cpp
+        source/LectorParametros.h
+        source/Logger.cpp
+        source/Logger.h
+        source/Individuo.cpp
+        source/Individuo.h
+        source/Poblacion.cpp
+        source/Poblacion.h
+        source/Poblacion.cpp
+)
+
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(meta_practica_02 PUBLIC OpenMP::OpenMP_CXX)
+endif()
+```
